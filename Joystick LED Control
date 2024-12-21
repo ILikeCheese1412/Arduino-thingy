@@ -1,0 +1,21 @@
+#include <Joystick.h>
+
+int RED1 = 13;
+int GREEN1 = 12;
+int YELLOW = 11;
+int BLUE = 10;
+int RED2 = 9;
+int GREEN2 = 8;
+
+Joystick joystick (A0, A1, 7);
+
+int LEDHOLD[6]={RED1, GREEN1, YELLOW, BLUE, RED2, GREEN2};
+
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  joystick.print("X: ", "\tY: ", "\tZ: ", 0, 100);
+  Serial.println();
+}
