@@ -1,21 +1,45 @@
 #include <Joystick.h>
 
-int RED1 = 13;
+int index = 5;
+int LED = 8;
+int RED = 13;
 int GREEN1 = 12;
-int YELLOW = 11;
+int YELLOW1 = 11;
 int BLUE = 10;
-int RED2 = 9;
+int YELLOW2 = 9;
 int GREEN2 = 8;
 
-Joystick joystick (A0, A1, 7);
+Joystick joystick (A0, A1, 2);
 
-int LEDHOLD[6]={RED1, GREEN1, YELLOW, BLUE, RED2, GREEN2};
+int LEDHOLD[6]={RED, GREEN1, YELLOW1, BLUE, YELLOW2, GREEN2};
 
 void setup() {
   Serial.begin(9600);
+  pinMode(RED, OUTPUT);
+  pinMode(GREEN1, OUTPUT);
+  pinMode(YELLOW1, OUTPUT);
+  pinMode(BLUE, OUTPUT);
+  pinMode(YELLOW2, OUTPUT);
+  pinMode(GREEN2, OUTPUT);
 }
 
 void loop() {
   joystick.print("X: ", "\tY: ", "\tZ: ", 0, 100);
   Serial.println();
+  if(joystick.printX("", 0, 100) <= 25) {
+    if(index != 0) {
+      index -= 1;
+      LED = LEDHOLD[index];
+    }
+  }
+  if(joystick.printX("", 0, 100) >= 75) {
+    if(index != 5) {
+      index += 1;
+      LED = LEDHOLD[index];
+    }
+  }
+  if(joystick.printZ("") == false) {
+    digitalWrite(LED, !digitalRead(LED));
+    delay(250);
+  }
 }
